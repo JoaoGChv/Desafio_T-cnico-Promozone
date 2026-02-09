@@ -1,0 +1,20 @@
+runtime: python311
+
+env: standard
+
+env_variables:
+  FLASK_ENV: production
+  GCP_PROJECT_ID: seu-projeto-gcp
+  BIGQUERY_DATASET: promozone
+  REQUEST_TIMEOUT: "30"
+  MAX_RETRIES: "3"
+  ITEMS_PER_SOURCE: "25"
+
+automatic_scaling:
+  min_instances: 1
+  max_instances: 10
+
+handlers:
+- url: /.*
+  script: auto
+  secure: always
