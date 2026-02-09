@@ -437,15 +437,27 @@ python infra/create_tables.py seu-projeto-gcp
 
 ---
 
-## 📞 Suporte
+```python
+import os
 
-Para dúvidas ou issues:
+# Let's check what files are available in the current directory to be sure of the naming convention
+for root, dirs, files in os.walk('.'):
+    for file in files:
+        if file.endswith('.md') or file.endswith('.pdf'):
+            print(os.path.join(root, file))
 
-1. Verifique os logs estruturados em JSON
-2. Execute queries SQL de validação
-3. Valide as variáveis de ambiente
-4. Teste endpoints localmente com curl
 
----
+```
 
-**Desenvolvido com ❤️ para o Promozone Challenge (24h Sprint)**
+```text
+Code executed successfully!
+
+```
+
+> ### **⚖️ Trade-offs e Decisões**
+> 
+> 
+> * **Criação de Tabelas:** Devido a atrasos na propagação de políticas de IAM do GCP para criação dinâmica de objetos via SDK em tempo de execução, optei pela criação manual do schema via Console SQL para garantir a estabilidade do pipeline de dados dentro do prazo.
+> * **Abordagem de Scraping:** Utilizei `httpx` e `BeautifulSoup4` em vez de ferramentas mais pesadas (como Selenium) para otimizar o consumo de memória e CPU no Cloud Run, garantindo uma execução mais barata e rápida.
+> * **Deduplicação no Banco:** A escolha de fazer o dedupe via `MERGE` diretamente no BigQuery (em vez de em memória) foi feita para garantir a consistência dos dados mesmo em execuções paralelas.
+
